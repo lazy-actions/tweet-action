@@ -1,0 +1,28 @@
+name: Tweet Action
+author: lazy-actions
+description: Tweet message to twitter
+inputs:
+  message:
+    description: Plain message to tweet
+    required: false
+  data:
+    description: Parameters to render in template
+    required: false
+  data-filename:
+    description: Filename where data is saved
+    required: false
+  template:
+    description: Template string based on EJS
+    required: false
+  template-filename:
+    description: Filename where template is written
+    required: false
+  twitter-token:
+    description: OAuth 2.0 Bearer Token
+    required: true
+runs:
+  using: node12
+  main: dist/index.js
+branding:
+  icon: hash
+  color: blue
