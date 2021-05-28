@@ -1,4 +1,4 @@
-name: Tweet Action
+name: Tweet Message Action
 author: lazy-actions
 description: Tweet message to twitter
 inputs:
