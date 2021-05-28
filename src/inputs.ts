@@ -12,9 +12,9 @@ export class Inputs {
     this.message = core.getInput('message');
 
     if (!this.message) {
-      const data = this.getValue('data', 'data-filename');
+      const data = this.getValue('data', 'data_filename');
       this.data = data ? JSON.parse(data) : '';
-      this.template = this.getValue('template', 'template-filename');
+      this.template = this.getValue('template', 'template_filename');
 
       if (!this.data || !this.template) {
         throw new Error('Insufficient the input parameters');

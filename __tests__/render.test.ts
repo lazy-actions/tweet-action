@@ -22,9 +22,9 @@ describe('render() tests', () => {
     );
   });
 
-  test('With data-filename and template-filename params', () => {
-    process.env['INPUT_DATA-FILENAME'] = dataFilename;
-    process.env['INPUT_TEMPLATE-FILENAME'] = templateFilename;
+  test('With data_filename and template_filename params', () => {
+    process.env['INPUT_DATA_FILENAME'] = dataFilename;
+    process.env['INPUT_TEMPLATE_FILENAME'] = templateFilename;
     const inputs = new Inputs();
     expect(render(inputs.template as string, inputs.data as object)).toBe(
       'Hello lazy-actions'
