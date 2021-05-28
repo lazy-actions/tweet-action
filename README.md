@@ -1,5 +1,7 @@
 # Tweet Action
 
+![logo](./img/logo.png)
+
 ## Feature
 
 - Tweet message to Twitter
