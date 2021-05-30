@@ -1,0 +1,25 @@
+name: Tweet
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  tweet:
+    name: Tweet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ./
+        with:
+          data: |
+            {
+              "title": "Release lazy-actions/tweet-action@v${{ github.event.release.tag_name }} 🎉🎉🎉"
+              "url": "${{ github.event.release.html_url }}"
+            }
+          template_filename: assets/template.ejs
+          oauth_consumer_key: ${{ secrets.OAUTH_CONSUMER_KEY }}
+          oauth_consumer_secret: ${{ secrets.OAUTH_CONSUMER_SECRET }}
+          oauth_token: ${{ secrets.OAUTH_TOKEN }}
+          oauth_token_secret: ${{ secrets.OAUTH_TOKEN_SECRET }}
