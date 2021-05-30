@@ -9,8 +9,13 @@ describe('render() tests', () => {
   const templateFilename = path.join(fixtureDir, 'template.ejs');
 
   beforeEach(() => {
-    process.env = { ...initEnv };
-    process.env['INPUT_TWITTER-TOKEN'] = 'test';
+    process.env = {
+      INPUT_OAUTH_CONSUMER_KEY: 'test',
+      INPUT_OAUTH_CONSUMER_SECRET: 'test',
+      INPUT_OAUTH_TOKEN: 'test',
+      INPUT_OAUTH_TOKEN_SECRET: 'test',
+      ...initEnv
+    };
   });
 
   test('With data and template params', () => {
