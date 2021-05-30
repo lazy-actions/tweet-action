@@ -8,17 +8,26 @@ inputs:
   data:
     description: Parameters to render in template
     required: false
-  data-filename:
+  data_filename:
     description: Filename where data is saved
     required: false
   template:
     description: Template string based on EJS
     required: false
-  template-filename:
+  template_filename:
     description: Filename where template is written
     required: false
-  twitter-token:
-    description: OAuth 2.0 Bearer Token
+  oauth_consumer_key:
+    description: API key for OAuth 1.0a
+    required: true
+  oauth_consumer_secret:
+    description: API secret for OAuth 1.0a
+    required: true
+  oauth_token:
+    description: Access token for OAuth 1.0a
+    required: true
+  oauth_token_secret:
+    description: Access token secret for OAuth 1.0a
     required: true
 runs:
   using: node12
