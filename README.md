@@ -1,6 +1,6 @@
 # Tweet Action
 
-<p align="center"><img src="./img/logo.png"></p>
+<p align="center"><img src="./assets/img/logo.png"></p>
 <p align="center"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/lazy-actions/tweet-action/Build"> <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/lazy-actions/tweet-action/Tests?label=test"> <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/lazy-actions/tweet-action"> <img alt="GitHub" src="https://img.shields.io/github/license/lazy-actions/tweet-action"></p>
 
 ## Feature
@@ -68,3 +68,12 @@ steps:
       oauth_token: ${{ secrets.OAUTH_TOKEN }}
       oauth_token_secret: ${{ secrets.OAUTH_TOKEN_SECRET }}
 ```
+
+## Actual Example
+
+GitHub Actions Workflow file is [.github/workflows/tweet.yaml](https://github.com/lazy-actions/tweet-action/blob/main/.github/workflows/tweet.yaml). And template file is
+[assets/template.ejs](https://github.com/lazy-actions/tweet-action/blob/main/assets/template.ejs)
+
+**Tweet Result** :arrow_down:
+
+![twitter](./assets/img/tweet_result.png)
