@@ -76,4 +76,4 @@ GitHub Actions Workflow file is [.github/workflows/tweet.yaml](https://github.co
 
 **Tweet Result** :arrow_down:
 
-![twitter](./assets/img/tweet_result.png)
+<img src="./assets/img/tweet_result.png" width="50%">
