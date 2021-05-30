@@ -1,6 +1,7 @@
 # Tweet Action
 
-![logo](./img/logo.png)
+<p align="center"><img src="./img/logo.png"></p>
+<p align="center"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/lazy-actions/tweet-action/Build"> <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/lazy-actions/tweet-action/Tests?label=test"> <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/lazy-actions/tweet-action"> <img alt="GitHub" src="https://img.shields.io/github/license/lazy-actions/tweet-action"></p>
 
 ## Feature
 
@@ -12,12 +13,15 @@
 
 |Key|Required|Type|Description|
 |:--:|:--:|:--:|:--|
-|message|false|string|Plain message to tweet<br>:warning:Cannot be used with `data`, `data-filename`, `template` and `template-filename`|
-|data|false|string (JSON)|Parameters to render in template<br>Be sure to specify either `data` or `data-filename`<br>:warning:Cannot be used with `data-filename`|
-|data-filename|false|string|Filename where data is saved|
-|template|false|string|Template string based on EJS<br>Please refer to [EJS Homepage](https://ejs.co/) for how to write<br>Be sure to specify either `template` or `template-filename`<br>:warning:Cannot be used with `template-filename`|
-|template-filename|false|string|Filename where template is written|
-|twitter-token|true|string|OAuth 2.0 Bearer Token<br>See [Twitter Docs](https://developer.twitter.com/en/docs/authentication/oauth-2-0) for details|
+|message|false|string|Plain message to tweet<br>:warning:Cannot be used with `data`, `data_filename`, `template` and `template_filename`|
+|data|false|string (JSON)|Parameters to render in template<br>Be sure to specify either `data` or `data_filename`<br>:warning:Cannot be used with `data_filename`|
+|data_filename|false|string|Filename where data is saved|
+|template|false|string|Template string based on EJS<br>Please refer to [EJS Homepage](https://ejs.co/) for how to write<br>Be sure to specify either `template` or `template_filename`<br>:warning:Cannot be used with `template_filename`|
+|template_filename|false|string|Filename where template is written|
+|oauth_consumer_key|true|string|API key for OAuth 1.0a<br>See [Twitter Docs](https://developer.twitter.com/en/docs/authentication/oauth-1-0a) for details|
+|oauth_consumer_secret|true|string|API secret for OAuth 1.0a<br>See [Twitter Docs](https://developer.twitter.com/en/docs/authentication/oauth-1-0a) for details|
+|oauth_token|true|string|Access token for OAuth 1.0a<br>See [Twitter Docs](https://developer.twitter.com/en/docs/authentication/oauth-1-0a) for details|
+|oauth_token_secret|true|string|Access token secret for OAuth 1.0a<br>See [Twitter Docs](https://developer.twitter.com/en/docs/authentication/oauth-1-0a) for details|
 
 ## Example
 
@@ -28,7 +32,10 @@ steps:
   - uses: lazy-actions/tweet-action@main
     with:
       message: Hello World
-      twitter-token: ${{ secrets.TWITTER_TOKEN }}
+      oauth_consumer_key: ${{ secrets.OAUTH_CONSUMER_KEY }}
+      oauth_consumer_secret: ${{ secrets.OAUTH_CONSUMER_SECRET }}
+      oauth_token: ${{ secrets.OAUTH_TOKEN }}
+      oauth_token_secret: ${{ secrets.OAUTH_TOKEN_SECRET }}
 ```
 
 ### Use template
@@ -41,8 +48,11 @@ steps:
         {
           "name": "lazy-actions"
         }
-      template: Hello <%- name %>
-      twitter-token: ${{ secrets.TWITTER_TOKEN }}
+      template: 'Hello <%- name %>'
+      oauth_consumer_key: ${{ secrets.OAUTH_CONSUMER_KEY }}
+      oauth_consumer_secret: ${{ secrets.OAUTH_CONSUMER_SECRET }}
+      oauth_token: ${{ secrets.OAUTH_TOKEN }}
+      oauth_token_secret: ${{ secrets.OAUTH_TOKEN_SECRET }}
 ```
 
 ### Load template and data from file
@@ -51,7 +61,10 @@ steps:
 steps:
   - uses: lazy-actions/tweet-action@main
     with:
-      data-filename: tests/fixtures/data.json
-      template-filename: tests/fixtures/template.ejs
-      twitter-token: ${{ secrets.TWITTER_TOKEN }}
+      data_filename: tests/fixtures/data.json
+      template_filename: tests/fixtures/template.ejs
+      oauth_consumer_key: ${{ secrets.OAUTH_CONSUMER_KEY }}
+      oauth_consumer_secret: ${{ secrets.OAUTH_CONSUMER_SECRET }}
+      oauth_token: ${{ secrets.OAUTH_TOKEN }}
+      oauth_token_secret: ${{ secrets.OAUTH_TOKEN_SECRET }}
 ```

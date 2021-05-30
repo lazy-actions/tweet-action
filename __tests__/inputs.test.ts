@@ -8,8 +8,13 @@ describe('Inputs class tests', () => {
   const templateFilename = path.join(fixtureDir, 'template.ejs');
 
   beforeEach(() => {
-    process.env = { ...initEnv };
-    process.env['INPUT_TWITTER-TOKEN'] = 'test';
+    process.env = {
+      INPUT_OAUTH_CONSUMER_KEY: 'test',
+      INPUT_OAUTH_CONSUMER_SECRET: 'test',
+      INPUT_OAUTH_TOKEN: 'test',
+      INPUT_OAUTH_TOKEN_SECRET: 'test',
+      ...initEnv
+    };
   });
 
   test('Not throw error with message param', () => {
@@ -23,9 +28,9 @@ describe('Inputs class tests', () => {
     expect(() => new Inputs()).not.toThrow();
   });
 
-  test('Not throw error with data-filename and template-filename param', () => {
-    process.env['INPUT_DATA-FILENAME'] = dataFilename;
-    process.env['INPUT_TEMPLATE-FILENAME'] = templateFilename;
+  test('Not throw error with data_filename and template_filename param', () => {
+    process.env['INPUT_DATA_FILENAME'] = dataFilename;
+    process.env['INPUT_TEMPLATE_FILENAME'] = templateFilename;
     expect(() => new Inputs()).not.toThrow();
   });
 
@@ -43,13 +48,13 @@ describe('Inputs class tests', () => {
     expect(() => new Inputs()).toThrow('Insufficient the input parameters');
   });
 
-  test('Throw error with data-filename param without template param', () => {
-    process.env['INPUT_DATA-FILENAME'] = dataFilename;
+  test('Throw error with data_filename param without template param', () => {
+    process.env['INPUT_DATA_FILENAME'] = dataFilename;
     expect(() => new Inputs()).toThrow('Insufficient the input parameters');
   });
 
-  test('Throw error with template-filename param without data param', () => {
-    process.env['INPUT_TEMPLATE-FILENAME'] = templateFilename;
+  test('Throw error with template_filename param without data param', () => {
+    process.env['INPUT_TEMPLATE_FILENAME'] = templateFilename;
     expect(() => new Inputs()).toThrow('Insufficient the input parameters');
   });
 });

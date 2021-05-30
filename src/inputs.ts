@@ -2,19 +2,31 @@ import * as core from '@actions/core';
 import { loadFromFile } from './utils';
 
 export class Inputs {
-  message: string;
+  readonly message: string;
+  readonly oauthConsumerKey: string;
+  readonly oauthConsumerSecret: string;
+  readonly oauthToken: string;
+  readonly oauthTokenSecret: string;
   data: object | undefined;
   template: string | undefined;
-  twitterToken: string;
 
   constructor() {
-    this.twitterToken = core.getInput('twitter-token', { required: true });
+    this.oauthConsumerKey = core.getInput('oauth_consumer_key', {
+      required: true
+    });
+    this.oauthConsumerSecret = core.getInput('oauth_consumer_secret', {
+      required: true
+    });
+    this.oauthToken = core.getInput('oauth_token', { required: true });
+    this.oauthTokenSecret = core.getInput('oauth_token_secret', {
+      required: true
+    });
     this.message = core.getInput('message');
 
     if (!this.message) {
-      const data = this.getValue('data', 'data-filename');
+      const data = this.getValue('data', 'data_filename');
       this.data = data ? JSON.parse(data) : '';
-      this.template = this.getValue('template', 'template-filename');
+      this.template = this.getValue('template', 'template_filename');
 
       if (!this.data || !this.template) {
         throw new Error('Insufficient the input parameters');
