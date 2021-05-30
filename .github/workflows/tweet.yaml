@@ -15,7 +15,7 @@ jobs:
         with:
           data: |
             {
-              "title": "Release lazy-actions/tweet-action@v${{ github.event.release.tag_name }} 🎉🎉🎉"
+              "title": "Release lazy-actions/tweet-action@v${{ github.event.release.tag_name }} 🎉🎉🎉",
               "url": "${{ github.event.release.html_url }}"
             }
           template_filename: assets/template.ejs
