@@ -4171,38 +4171,35 @@ const parse = dist/* parse */.Qc;
 
 
 
-class OAuth {
-    constructor(method, baseUrl, query, oauthConsumerKey, oauthConsumerSecret, oauthToken, oauthTokenSecret, oauthNonce = '', oauthTimestamp = '') {
-        this.oauthSignatureMethod = 'HMAC-SHA1';
-        this.oauthVersion = '1.0';
-        this.oauthConsumerKey = oauthConsumerKey;
-        this.oauthToken = oauthToken;
-        this.oauthNonce = oauthNonce || v4().replace(/-/, '');
-        this.oauthTimestamp =
-            oauthTimestamp || Math.floor(Date.now() / 1000).toString();
-        this.oauthSignature = this.sign(method, baseUrl, query, oauthConsumerSecret, oauthTokenSecret);
-    }
-    generate() {
-        return `OAuth ${this.concat(this.entity, '"', ', ')}`;
-    }
-    get entity() {
-        const entity = {};
-        Object.entries(this).forEach(([k, v]) => (entity[k] = v));
-        return entity;
-    }
-    sign(method, url, query, oauthConsumerSecret, oauthTokenSecret) {
-        const params = this.concat(Object.assign(Object.assign({}, this.entity), query), '', '&');
-        const base = [method.toUpperCase(), url, params].map(rfc3986).join('&');
-        const key = [oauthConsumerSecret, oauthTokenSecret].map(rfc3986).join('&');
-        return external_crypto_default().createHmac('sha1', key).update(base).digest('base64');
-    }
-    concat(obj, wrap, sep) {
-        const params = [];
-        Object.entries(obj)
-            .sort()
-            .forEach(([k, v]) => params.push(`${camel2snake(k)}=${wrap}${rfc3986(v)}${wrap}`));
-        return params.join(sep);
-    }
+function generate(method, baseUrl, query, oauthConsumerKey, oauthConsumerSecret, oauthToken, oauthTokenSecret, oauthNonce = v4().replace(/-/, ''), oauthTimestamp = Math.floor(Date.now() / 1000).toString(), oauthSignatureMethod = 'HMAC-SHA1', oauthVersion = '1.0') {
+    const req = { method, baseUrl, query };
+    const source = {
+        oauthConsumerKey,
+        oauthToken,
+        oauthNonce,
+        oauthTimestamp,
+        oauthSignatureMethod,
+        oauthVersion
+    };
+    const secret = { oauthConsumerSecret, oauthTokenSecret };
+    const oauthSignature = sign(req, source, secret);
+    const entity = Object.assign(Object.assign({}, source), { oauthSignature });
+    return `OAuth ${concat(entity, '"', ', ')}`;
+}
+function sign(req, source, secret) {
+    const params = concat(Object.assign(Object.assign({}, source), req.query), '', '&');
+    const base = [req.method.toUpperCase(), req.baseUrl, params]
+        .map(rfc3986)
+        .join('&');
+    const key = Object.values(secret).map(rfc3986).join('&');
+    return external_crypto_default().createHmac('sha1', key).update(base).digest('base64');
+}
+function concat(obj, wrap, sep) {
+    const params = [];
+    Object.entries(obj)
+        .sort()
+        .forEach(([k, v]) => params.push(`${camel2snake(k)}=${wrap}${rfc3986(v)}${wrap}`));
+    return params.join(sep);
 }
 
 ;// CONCATENATED MODULE: ./src/twitter.ts
@@ -4223,12 +4220,12 @@ function tweet(message, oauthConsumerKey, oauthConsumerSecret, oauthToken, oauth
         const url = 'https://api.twitter.com/1.1/statuses/update.json';
         const method = 'POST';
         const query = { include_entities: 'true', status: message };
-        const oauth = new OAuth(method, url, query, oauthConsumerKey, oauthConsumerSecret, oauthToken, oauthTokenSecret);
+        const auth = generate(method, url, query, oauthConsumerKey, oauthConsumerSecret, oauthToken, oauthTokenSecret);
         const res = yield lib_default()(`${stringifyUrlWithQs(url, query)}`, {
             method,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                Authorization: oauth.generate()
+                Authorization: auth
             }
         });
         if (!res.ok) {
