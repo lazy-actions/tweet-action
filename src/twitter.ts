@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { OAuth } from './oauth';
+import * as oauth from './oauth';
 import { rfc3986 } from './utils';
 
 export async function tweet(
@@ -12,7 +12,7 @@ export async function tweet(
   const url = 'https://api.twitter.com/1.1/statuses/update.json';
   const method = 'POST';
   const query = { include_entities: 'true', status: message };
-  const oauth = new OAuth(
+  const auth = oauth.generate(
     method,
     url,
     query,
@@ -26,7 +26,7 @@ export async function tweet(
     method,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: oauth.generate()
+      Authorization: auth
     }
   });
 
