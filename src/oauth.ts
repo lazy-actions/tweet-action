@@ -16,10 +16,10 @@ export function generate(
   oauthConsumerSecret: string,
   oauthToken: string,
   oauthTokenSecret: string,
-  oauthNonce: string = uuid().replace(/-/, ''),
-  oauthTimestamp: string = Math.floor(Date.now() / 1000).toString(),
-  oauthSignatureMethod: string = 'HMAC-SHA1',
-  oauthVersion: string = '1.0'
+  oauthNonce = uuid().replace(/-/, ''),
+  oauthTimestamp = Math.floor(Date.now() / 1000).toString(),
+  oauthSignatureMethod = 'HMAC-SHA1',
+  oauthVersion = '1.0'
 ): string {
   const req = { method, baseUrl, query };
   const source = {
