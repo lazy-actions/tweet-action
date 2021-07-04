@@ -54,11 +54,8 @@ function concat(
   wrap: string,
   sep: string
 ): string {
-  const params: string[] = [];
-  Object.entries(obj)
+  return Object.entries(obj)
     .sort()
-    .forEach(([k, v]) =>
-      params.push(`${camel2snake(k)}=${wrap}${rfc3986(v)}${wrap}`)
-    );
-  return params.join(sep);
+    .map(([k, v]) => `${camel2snake(k)}=${wrap}${rfc3986(v)}${wrap}`)
+    .join(sep);
 }
