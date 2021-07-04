@@ -16,10 +16,10 @@ export function generate(
   oauthConsumerSecret: string,
   oauthToken: string,
   oauthTokenSecret: string,
-  oauthNonce: string = uuid().replace(/-/, ''),
-  oauthTimestamp: string = Math.floor(Date.now() / 1000).toString(),
-  oauthSignatureMethod: string = 'HMAC-SHA1',
-  oauthVersion: string = '1.0'
+  oauthNonce = uuid().replace(/-/, ''),
+  oauthTimestamp = Math.floor(Date.now() / 1000).toString(),
+  oauthSignatureMethod = 'HMAC-SHA1',
+  oauthVersion = '1.0'
 ): string {
   const req = { method, baseUrl, query };
   const source = {
@@ -54,11 +54,8 @@ function concat(
   wrap: string,
   sep: string
 ): string {
-  const params: string[] = [];
-  Object.entries(obj)
+  return Object.entries(obj)
     .sort()
-    .forEach(([k, v]) =>
-      params.push(`${camel2snake(k)}=${wrap}${rfc3986(v)}${wrap}`)
-    );
-  return params.join(sep);
+    .map(([k, v]) => `${camel2snake(k)}=${wrap}${rfc3986(v)}${wrap}`)
+    .join(sep);
 }

@@ -22,7 +22,7 @@ export async function tweet(
     oauthTokenSecret
   );
 
-  const res = await fetch(`${stringifyUrlWithQs(url, query)}`, {
+  const res = await fetch(buildQuery(url, query), {
     method,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -46,10 +46,9 @@ export async function tweet(
   }
 }
 
-function stringifyUrlWithQs(url: string, query: { [name: string]: string }) {
-  const queryStrings: string[] = [];
-  Object.entries(query).forEach((x) =>
-    queryStrings.push(x.map(rfc3986).join('='))
-  );
-  return `${url}?${queryStrings.join('&')}`;
+function buildQuery(url: string, query: { [name: string]: string }): string {
+  const queryStr = Object.entries(query)
+    .map((x) => x.map(rfc3986).join('='))
+    .join('&');
+  return `${url}?${queryStr}`;
 }
