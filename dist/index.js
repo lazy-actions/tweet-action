@@ -4195,11 +4195,10 @@ function sign(req, source, secret) {
     return external_crypto_default().createHmac('sha1', key).update(base).digest('base64');
 }
 function concat(obj, wrap, sep) {
-    const params = [];
-    Object.entries(obj)
+    return Object.entries(obj)
         .sort()
-        .forEach(([k, v]) => params.push(`${camel2snake(k)}=${wrap}${rfc3986(v)}${wrap}`));
-    return params.join(sep);
+        .map(([k, v]) => `${camel2snake(k)}=${wrap}${rfc3986(v)}${wrap}`)
+        .join(sep);
 }
 
 ;// CONCATENATED MODULE: ./src/twitter.ts
@@ -4221,7 +4220,7 @@ function tweet(message, oauthConsumerKey, oauthConsumerSecret, oauthToken, oauth
         const method = 'POST';
         const query = { include_entities: 'true', status: message };
         const auth = generate(method, url, query, oauthConsumerKey, oauthConsumerSecret, oauthToken, oauthTokenSecret);
-        const res = yield lib_default()(`${stringifyUrlWithQs(url, query)}`, {
+        const res = yield lib_default()(buildQuery(url, query), {
             method,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -4244,10 +4243,11 @@ function tweet(message, oauthConsumerKey, oauthConsumerSecret, oauthToken, oauth
         }
     });
 }
-function stringifyUrlWithQs(url, query) {
-    const queryStrings = [];
-    Object.entries(query).forEach((x) => queryStrings.push(x.map(rfc3986).join('=')));
-    return `${url}?${queryStrings.join('&')}`;
+function buildQuery(url, query) {
+    const queryStr = Object.entries(query)
+        .map((x) => x.map(rfc3986).join('='))
+        .join('&');
+    return `${url}?${queryStr}`;
 }
 
 ;// CONCATENATED MODULE: ./src/index.ts
